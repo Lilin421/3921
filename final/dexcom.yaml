@@ -1,0 +1,36 @@
+substitutions:
+  transmitter_id: "8YD26N"  # need to be updated with your transmitter ID
+
+esphome:
+  name: dexcom-reader
+
+external_components:
+  - source: github://Fabian-Schmidt/esphome-dexcom
+
+esp32:
+  board: esp32dev
+
+logger:
+
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 10ms
+    window: 10ms
+    active: false
+
+dexcom_ble_client:
+  id: dexcom_ble_client_id
+  transmitter_id: ${transmitter_id}
+
+sensor:
+  - platform: dexcom_ble_client
+    type: GLUCOSE_IN_MG_DL
+    name: "Dexcom Glucose"
+
+  - platform: dexcom_ble_client
+    type: GLUCOSE_IN_MMOL_L
+    name: "Dexcom Glucose mmol"
+
+  - platform: dexcom_ble_client
+    type: GLUCOSE_TREND
+    name: "Dexcom Trend"
